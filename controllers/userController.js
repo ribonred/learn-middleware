@@ -8,8 +8,12 @@ exports.login = async (req, res) => {
     return;
   }
   const token = User.generateToken(user);
-  console.log(token);
-  res.json({ token });
+  res.json(token);
+};
+exports.refreshToken = async (req, res) => {
+  const { refreshToken } = req.body;
+  const token = await User.refreshToken(refreshToken);
+  res.json(token);
 };
 exports.profile = async (req, res) => {
   const user = await User.get({ username: req.user.username }, { select: { username: true, email: true } });

@@ -32,20 +32,20 @@ describe("User model", () => {
   });
   test("generateToken method returns a valid JWT", async () => {
     const user = await User.get({ username: "testUser" });
-    const token = User.generateToken(user);
-    const decoded = jwt.verify(token, process.env.SECRET);
+    const {accesToken} = User.generateToken(user);
+    const decoded = jwt.verify(accesToken, process.env.SECRET);
     expect(decoded.id).toBe(user.id);
   });
   test("parseToken method returns a user for a valid token", async () => {
     const user = await User.get({ username: "testUser" });
-    const token = User.generateToken(user);
-    const parsedUser = await User.parseToken(token);
+    const {accesToken} = User.generateToken(user);
+    const parsedUser = await User.parseToken(accesToken);
     expect(parsedUser.id).toBe(user.id);
   });
   test("parseTokenSafe method returns a user for a valid token", async () => {
     const user = await User.get({ username: "testUser" });
-    const token = User.generateToken(user);
-    const parsedUser = await User.parseTokenSafe(token);
+    const {accesToken} = User.generateToken(user);
+    const parsedUser = await User.parseTokenSafe(accesToken);
     expect(parsedUser.id).toBe(user.id);
   });
   test("parseTokenSafe method returns null for an invalid token", async () => {

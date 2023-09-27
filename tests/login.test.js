@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');
+const User = require("../models/User");
 
 chai.use(chaiHttp);
 const expect = require('chai').expect;
@@ -12,10 +13,24 @@ describe('Login', () => {
       .send({ username: 'testUser', password: 'testPassword' })
       .end((err, res) => {
         expect(res.status).to.equal(200)
-        expect(res.body.token).to.be.a('string');
+        expect(res.body.accesToken).to.be.a('string');
         done();
       });
   }, 10000);
+  it('should return acess token for refresh token', (done) => {
+    User.get({ username: "testUser" }).then((user) => {
+      const { accesToken } = User.generateToken(user);
+      chai.request(server)
+        .post('/user/refreshtoken')
+        .send({ refreshToken: accesToken })
+        .end((err, res) => {
+          expect(res.status).to.equal(200)
+          expect(res.body.accesToken).to.be.a('string');
+          done();
+        });
+    }, 10000);
+  })
+
   it('should return an error for invalid username or password', (done) => {
     chai.request(server)
       .post('/user/login')
