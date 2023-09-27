@@ -38,5 +38,4 @@ class User {
     return await prisma.user.delete({ where: { id } });
   }
 }
-exports.User = User;
-exports.prisma = prisma;
+module.exports = User;

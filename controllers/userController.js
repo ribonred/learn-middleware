@@ -8,6 +8,7 @@ exports.login = async (req, res) => {
     return;
   }
   const token = User.generateToken(user);
+  console.log(token);
   res.json({ token });
 };
 exports.profile = async (req, res) => {
