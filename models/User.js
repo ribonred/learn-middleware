@@ -1,7 +1,6 @@
-const { PrismaClient } = require("@prisma/client");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-const prisma = new PrismaClient();
+const { prisma } = require("./extensions");
 
 
 class User {
@@ -18,7 +17,7 @@ class User {
     if (!user) throw new Error("User not found");
     return this.generateToken(user);
   }
-  
+
   static make_password(password) {
     return CryptoJS.PBKDF2(password, process.env.SECRET, { keySize: 256 / 32, iterations: 1000 }).toString();
   }

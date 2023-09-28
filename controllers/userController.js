@@ -36,4 +36,8 @@ exports.profile = async (req, res) => {
   const user = await User.get({ username: req.user.username }, { select: { username: true, email: true } });
   res.json(user);
 }
+exports.adminProfile = async (req, res) => {
+  const user = await User.get({ username: req.user.username }, { select: { username: true, email: true } });
+  res.json(user);
+}
 

@@ -5,3 +5,14 @@ exports.isAuthenticated = async (req, res, next) => {
     }
     next();
 };
+
+exports.isAdmin = async (req, res, next) => {
+    await exports.isAuthenticated(req, res, async () => {
+        const isAdmin = await req.user.isSuperuser;
+        if (!isAdmin) {
+            res.status(403).json({ error: "Not authorized" });
+            return;
+        }
+        next();
+    });
+};

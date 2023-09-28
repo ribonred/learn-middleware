@@ -5,10 +5,10 @@ class ApiKeyAuth extends BaseAuth {
     async getUser(req) {
         const apikey = req.headers["x-api-key"];
         if (apikey === "1234") {
-            const user = await User.get(
+            const _user = await User.get(
                 { username: "testUser" },
-                { select: { username: true, permissions: true } }
-                );
+            );
+            const user = this.exclude(_user, ["password"]);
             return user;
         }
         return null;
