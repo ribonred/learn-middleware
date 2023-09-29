@@ -9,6 +9,7 @@ applyMiddleware(app);
 app.use('/user', userRoutes);
 
 app.get('/', (req, res) => {
+  console.log(req.cookies);
   res.send('Hello, World!');
 });
 const server = app.listen(3000, () => {
